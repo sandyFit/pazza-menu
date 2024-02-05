@@ -159,6 +159,11 @@ body {
 
 .footer {
   font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+
 }
 
 .order {
@@ -172,12 +177,14 @@ body {
   color: inherit;
   font-family: inherit;
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   background-color: #edc84b;
   padding: 1.4rem 3.2rem;
   cursor: pointer;
   transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 .btn:hover {

@@ -51,11 +51,12 @@ const pizzaData = [
 function App() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const openHour = 12;
+  const closeHour = 22;
   
   useEffect(() => {
     const hour = new Date().getHours();
-    const openHour = 12;
-    const closeHour = 22;
+    
     setIsOpen(hour >= openHour && hour <= closeHour);
   }, []); // Dependency array is empty, so this runs only once when the component mounts
 
@@ -63,7 +64,10 @@ function App() {
         <div className='container'>                  
             <Header isOpen={isOpen}/>
             <Menu/>
-            <Footer isOpen={isOpen}/>
+            <Footer isOpen={isOpen}
+              closeHour={closeHour}
+              openHour={openHour}
+            />
         </div>
     )
 }
@@ -85,31 +89,40 @@ function Menu() {
     return (
         <main className='menu'>
           <h2>Our Menu</h2>
-        {pizzaData.map((pizza) => (
-          <Pizza pizzaObj={ pizza } key={ pizza.name } />
-        ))}
-      </main>
+          <ul className='pizzas'>         
+            {pizzaData.map((pizza) => (
+              <Pizza pizzaObj={ pizza } key={ pizza.name } />
+            ))}
+          </ul>
+        </main>
     )
 }
 
-function Footer({isOpen}) {
-
-    return (
-        <footer className='footer'>
-            {new Date().toLocaleTimeString()}.
-            { isOpen ? "We're currently open!" : "Sorry, we're closed"}
-        </footer>
-    )
+function Footer({ isOpen, openHour, closeHour }) {
+  return (
+    <footer className='footer'>
+      <div className='order'>       
+        
+        {isOpen ? ( 
+          <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+        ) : (
+            <p>We are currently closed. We open at { openHour }:00</p>
+        )}
+      </div>
+      <button className="btn">Order</button>
+    </footer>
+  );
 }
 
-function Pizza({props}) {
+
+function Pizza({pizzaObj}) {
     return (
-        <div className='pizza'>
-        <img src={props.pizzaObj.photoName } alt={props.pizzaObj.name} />
-        <h3>{ props.pizzaObj.name }</h3>
-        <p>{props.pizzaObj.ingredients }</p>
-        <span>${ props.pizzaObj.price }</span>
-        </div>
+        <li className='pizza'>
+          <img src={pizzaObj.photoName } alt={pizzaObj.name} />
+          <h3>{ pizzaObj.name }</h3>
+          <p>{pizzaObj.ingredients }</p>
+          <span>${ pizzaObj.price }</span>
+        </li>
     )
 
 }
